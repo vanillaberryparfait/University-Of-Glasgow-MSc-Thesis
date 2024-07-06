@@ -6,7 +6,7 @@ This repository contains the scripts and data used in my MSc thesis project. In 
 
 - [Data](#data)
 - [Installation](#installation)
-- [Quick Start:](#quickstart)
+- [Workflow](#workflow)
 - [Results](#results)
 
 ## Data
@@ -47,7 +47,7 @@ BiocManager::install(c("clusterProfiler", "org.Hs.eg.db", "DESeq2"))
 
 ```
 
-## Quick Start:
+## Workflow
 
 Loading Libraries :
 ```r
@@ -81,6 +81,128 @@ Libraries Overview
 * devtools: Provides tools for R package development, including functions for package installation, documentation, and testing.
 * Biobase: Offers fundamental tools and classes for bioinformatics data analysis and manipulation.
 * sva: Performs surrogate variable analysis to identify and adjust for hidden sources of variation in high-dimensional data , thereby improving the accuracy of statistical analyses.
-* pheatmap: Generates highly customizable heatmaps for visualizing large datasets and patterns within data.
+* pheatmap: Generates highly customizable heatmaps for visualizing large datasets and patterns within data. 
+
+
+Loading Gene Count Data and Sample Sets 
+
+```r
+g_count_table = read.csv("gene_count.csv",row.names = 1)
+ss=read.csv("ss.csv",header=TRUE,row.names = 1, sep=',')
+```
+
+Correcting Batch Effect and Differential Expression Analysis
+```r
+g_count_corrected = ComBat_seq(as.matrix(g_count), batch=ss$PATIENT , group = ss$GROWTHCONDITION)
+g_dds=DESeqDataSetFromMatrix(countData=g_count_corrected,colData=ss,design=~ GROWTHCONDITION )
+#checks whether g_dds  is a matrix
+class(counts(g_dds))
+#removes rows less than 1
+notAllZero <- (rowSums(counts(g_dds))>0)
+g_dds <- g_dds[notAllZero,]
+# differential expression (DE) analysis for g_dds 
+g_dds= DESeq(g_dds)
+
+```
+Batch Effect:
+The eatch effect was corrected using the ComBat_seq function. Correcting batch effects is essential for improving data quality and accurately interpreting biological insights from analysis.
+
+Differential Expression Analysis :
+Differential expression analysis was carried out using the package DESeq2. Prior to
+starting with the differential expression analysis, DESeqDataSetFromMatrix function is
+used to create a DESeq DataSet object. Next, the class function was used to check if the
+DESeq DataSet has been correctly formatted and a matrix has been generated. Rows in
+the matrix having expression less than 1 were further removed as DESeq2 cannot perform
+analysis on genes with such values. Finally, differential expression analysis was carried
+out using the DESeq function. This function performs various steps such as estimating
+size factors, estimating dispersions, calculating gene-wise dispersion estimates,
+examining the mean-dispersion relationship, obtaining final dispersion estimates, and
+fitting a model for testing differential expression. 
+
+Functions Used for the Plots :
+
+```r
+## PCA 
+em_scaled = na.omit(data.frame(cale(t(em))))
+xx = prcomp(t(em_scaled))
+pca_coordinates = data.frame(xx$x)
+
+ggp1 = ggplot(pca_coordinates, aes(x=PC1, y= PC2, colour = ss$GROWTHCONDITION)) + 
+  geom_point(size=6)+ geom_text_repel(aes(label=row.names(ss) ))
+png("PCA_GROWTHCONDITION.png", width=1250, height = 1000)
+print(ggp1)
+ggp1
+
+## Volcano Plots
+
+plot_volcano = function(de_table, p_threshold, fold_threshold ,title) 
+{
+  #Sort by p value
+  sorted = order(de_table[ ,"p"] , decreasing=FALSE) 
+  #The following code creates two tables that contain top 10 up regulated and down regulated genes
+  de_table = de_table[sorted,]
+  de_table_sig = subset(de_table, padj < p_threshold & abs(log2fold) >fold_threshold)
+  de_table_sig_up = subset(de_table, padj< p_threshold & log2fold > fold_threshold)
+  de_table_sig_down = subset(de_table, padj< p_threshold & log2fold < fold_threshold) 
+  de_table_sig_up_top10 = de_table_sig_up[1:10,] 
+  de_table_sig_down_top10 = de_table_sig_down[1:10,]
+  
+  ggp=ggplot(de_table, aes(x = log2fold, y = mlog10p)) + 
+    geom_point(colour = "black",shape=15) + 
+    geom_point(data = de_table_sig_down, colour = "blue",shape=16) + 
+    geom_point(data = de_table_sig_up, colour = "red",shape=18) +
+    labs(title=title, x="log2 Fold Change", y="-log10 p-value") + 
+    my_theme+ 
+    geom_vline(xintercept=-1, linetype="dashed", color = "grey", size=0.5) + 
+    geom_vline(xintercept=1, linetype="dashed", color = "grey", size=0.5) + 
+    geom_hline(yintercept=-log10(0.05))+ xlim(c(-20, 20)) + ylim(c(0, 50))+ 
+    geom_label_repel(data=de_table_sig_up_top10, aes(label=gene_name), show.legend = TRUE) +
+    geom_label_repel(data=de_table_sig_down_top10, aes(label= gene_name),show.legend = TRUE)
+  file_name <- paste0(title, ".png")  # Create dynamic file name
+  png(file_name, width = 1250, height = 1000)
+  print(ggp)
+  dev.off() 
+
+  return(ggp) }
+
+
+## MA plots
+
+plot_MA = function(de_table, p_threshold, fold_threshold,title) 
+{
+  de_table = na.omit(de_table)
+  
+  sorted = order(de_table[ ,"p"] , decreasing=FALSE)
+  
+  de_table = de_table[sorted,]
+  de_table_sig = subset(de_table, padj < p_threshold & abs(log2fold) >fold_threshold)
+  de_table_sig_up = subset(de_table, padj< p_threshold & log2fold > fold_threshold)
+  de_table_sig_down = subset(de_table, padj< p_threshold & log2fold < fold_threshold) 
+  de_table_sig_up_top10 = de_table_sig_up[1:10,] 
+  de_table_sig_down_top10 = de_table_sig_down[1:10,]
+  
+  ggp=ggplot(de_table, aes(x = log10(rowMeans), y = log2fold)) + 
+    geom_point(colour = "black") + 
+    geom_point(data = de_table_sig_down, colour = "blue") + 
+    geom_point(data = de_table_sig_up, colour = "red") +
+    labs(title=title, x="log10 Mean Expression", y="log2 Fold Change") +
+    my_theme + ylim(c(-10,10))+ geom_label_repel(data=de_table_sig_up_top10, aes(label=gene_name)) +
+    geom_label_repel(data=de_table_sig_down_top10, aes(label=gene_name))
+  file_name <- paste0(title, ".png")  # Create dynamic file name
+  png(file_name, width = 1250, height = 1000)
+  print(ggp)
+  dev.off() 
+  
+  return(ggp) }
+
+```
+
+PCA Plot : Essential to visualise clusters and patterns based on similarity from our data and hlp us in understanding data structure and identifying outliers or clusters.
+MA plots : MA plots depict the relationship between the mean expression level (M) and the average abundance (A) of genes or features, highlighting differential expression between conditions
+Volcano Plots : Volcano Plot is plot between Fold Change and P-value Volcano which helps in indentifying  significantly differentially expressed entities.
+
+
+
+
 
 
