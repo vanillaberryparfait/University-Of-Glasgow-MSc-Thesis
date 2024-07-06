@@ -4,10 +4,37 @@ This repository contains the scripts and data used in my MSc thesis project. In 
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Data](#data)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Outputs](#outputs)
+
+## Data
+
+The data used in this study was a gene count data obtained via Next Generation
+Sequencing (NGS) which was done at Novogene. This dataset was provided to us by Dr.
+Alison Michie from the Paul O'Gorman Leukaemia Research Centre. The dataset
+encompassed gene expression information from five male patients from the UK, each
+uniquely identified by patient identifiers, namely CLL_125, CLL_173, CLL_175,
+CLL_186, and CLL_203. All of these patients were stated to be older adults i.e., above
+50 years of age. The patients were classified into different Binet stages based on severity.
+Patient CLL_203, CLL_173 and CLL_125 were observed to have mutations and
+cytogenetic abnormalities. Patient CLL_203 did not show 11q, 17p or p53 mutations,
+while Patient CLL_125 did not show 11q and 17p mutations. The patient CLL_173 was
+observed to have 11q deletion, which is a cytogenetic abnormality. The patients CLL_173
+and CLL_175 had relapsing cancers and were previously treated with Fludarabine,
+cyclophosphamide and rituximab (FCR) which is a chemotherapeutic drug and a
+combination of ofatumumab (OFA)-chlorambucil (CHL)(OFA-Chl) respectively. 
+
+<img width="454" alt="image" src="https://github.com/vanillaberryparfait/University-Of-Glasgow-MSc-Thesis/assets/80147829/71390203-4ebf-4a93-a93c-6d158cf4399d">
+
+These above patients' samples were subjected to bulk RNA-seq analysis under five
+distinct growth conditions, which were as follows:
+Group 1 = NTL (non-proliferating)
+Group 2 = NTL-CD40L/IL4 (proliferating)
+Group 3 = NTL-CD40L/IL4 treated with AZD8055
+Group 4 = NTL-CD40L/IL4 treated with Ibrutinib
+Group 5 = NTL-CD40L/IL4 treated with combination (AZD8055 + IB).
 
 ## Installation
 
@@ -17,3 +44,6 @@ To run the scripts, the following packages were installed:
 ```r
 install.packages(c("ggplot2", "ggthemes", "ggrepel", "reshape2", "vctrs", "amap", "devtools", "Biobase", "sva", "pheatmap"))
 BiocManager::install(c("clusterProfiler", "org.Hs.eg.db", "DESeq2"))
+
+```
+
