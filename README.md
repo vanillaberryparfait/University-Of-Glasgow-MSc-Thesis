@@ -215,7 +215,7 @@ up_pathway_analysis = function(DE){
 }
 ```
 
-* Over Representation Analysis was carried out on these significant genes using the
+* Over Representation Analysis was carried out  using the
   packages ‘clusterProfiler’ and ‘org.Hs.eg.db’. The function enrichGO was used to carry
   out GO enrichment analysis to understand which biological processes are enriched among
   the differentially expressed genes.
