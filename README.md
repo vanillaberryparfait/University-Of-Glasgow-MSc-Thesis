@@ -104,20 +104,20 @@ g_dds <- g_dds[notAllZero,]
 g_dds= DESeq(g_dds)
 
 ```
-Batch Effect:
-The eatch effect was corrected using the ComBat_seq function. Correcting batch effects is essential for improving data quality and accurately interpreting biological insights from analysis.
+* Batch Effect:
+ The eatch effect was corrected using the ComBat_seq function. Correcting batch effects is essential for improving data quality and accurately interpreting biological insights from  analysis.
 
-Differential Expression Analysis :
-Differential expression analysis was carried out using the package DESeq2. Prior to
-starting with the differential expression analysis, DESeqDataSetFromMatrix function is
-used to create a DESeq DataSet object. Next, the class function was used to check if the
-DESeq DataSet has been correctly formatted and a matrix has been generated. Rows in
-the matrix having expression less than 1 were further removed as DESeq2 cannot perform
-analysis on genes with such values. Finally, differential expression analysis was carried
-out using the DESeq function. This function performs various steps such as estimating
-size factors, estimating dispersions, calculating gene-wise dispersion estimates,
-examining the mean-dispersion relationship, obtaining final dispersion estimates, and
-fitting a model for testing differential expression. 
+* Differential Expression Analysis :
+  Differential expression analysis was carried out using the package DESeq2. Prior to
+  starting with the differential expression analysis, DESeqDataSetFromMatrix function is
+  used to create a DESeq DataSet object. Next, the class function was used to check if the
+  DESeq DataSet has been correctly formatted and a matrix has been generated. Rows in
+  the matrix having expression less than 1 were further removed as DESeq2 cannot perform
+  analysis on genes with such values. Finally, differential expression analysis was carried
+  out using the DESeq function. This function performs various steps such as estimating
+  size factors, estimating dispersions, calculating gene-wise dispersion estimates,
+  examining the mean-dispersion relationship, obtaining final dispersion estimates, and
+  fitting a model for testing differential expression. 
 
 Functions Used for the Plots :
 
@@ -197,9 +197,42 @@ plot_MA = function(de_table, p_threshold, fold_threshold,title)
 
 ```
 
-PCA Plot : Essential to visualise clusters and patterns based on similarity from our data and hlp us in understanding data structure and identifying outliers or clusters.
-MA plots : MA plots depict the relationship between the mean expression level (M) and the average abundance (A) of genes or features, highlighting differential expression between conditions
-Volcano Plots : Volcano Plot is plot between Fold Change and P-value Volcano which helps in indentifying  significantly differentially expressed entities.
+* PCA Plot : Essential to visualise clusters and patterns based on similarity from our data and hlp us in understanding data structure and identifying outliers or clusters.
+* MA plots : MA plots depict the relationship between the mean expression level (M) and the average abundance (A) of genes or features, highlighting differential expression between    conditions
+* Volcano Plots : Volcano Plot is plot between Fold Change and P-value Volcano which helps in indentifying  significantly differentially expressed entities.
+
+
+Pathway Analysis :
+
+```r
+####UP REGULATED PATHWAY RESULTS#### USING GO.
+up_pathway_analysis = function(DE){
+  
+  sig_genes = row.names(subset(DE,padj < 0.05 & abs(log2fold) > 1))
+  sig_genes_entrez=bitr(sig_genes, fromType = "ENSEMBL", toType = c("ENTREZID"), OrgDb = org.Hs.eg.db)
+  pathway_results = enrichGO(gene = sig_genes_entrez$ENTREZID, OrgDb = org.Hs.eg.db, readable = T, ont = "BP", pvalueCutoff = 0.05, qvalueCutoff = 0.10)
+  return(pathway_results)
+}
+```
+
+* Over Representation Analysis was carried out on these significant genes using the
+  packages ‘clusterProfiler’ and ‘org.Hs.eg.db’. The function enrichGO was used to carry
+  out GO enrichment analysis to understand which biological processes are enriched among
+  the differentially expressed genes.
+  
+Function used to plot a Bar Plot to visualise the Pathway Analysis :
+
+```r
+
+pathway_bar <- function(a, b) {
+  barplot <- barplot(a, showCategory = 10)
+  file_name <- paste0(b, ".png")  # Create dynamic file name
+  png(file_name, width = 1250, height = 1000)
+  print(barplot)
+  dev.off()  # Close the graphics device
+  return(barplot)
+}
+```
 
 
 
