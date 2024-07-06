@@ -11,7 +11,7 @@ This repository contains the scripts and data used in my MSc thesis project. In 
 
 ## Installation
 
-The entire analysis was carried out on RStudio Version 2023.06.0+421 (2023.06.0+421).
+The entire analysis was carried out on RStudio Version 2023.06.0+421 (2023.06.0+421). <br/> 
 To run the scripts, the following packages were installed:
 
 ```r
