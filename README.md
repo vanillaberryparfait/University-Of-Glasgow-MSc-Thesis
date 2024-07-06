@@ -8,3 +8,11 @@ This repository contains the scripts and data used in my MSc thesis project. In 
 - [Data](#data)
 - [Usage](#usage)
 - [Outputs](#outputs)
+
+## Installation
+
+To run the scripts, you need to have R installed along with the following packages:
+
+```r
+install.packages(c("ggplot2", "ggthemes", "ggrepel", "reshape2", "vctrs", "amap", "devtools", "Biobase", "sva", "pheatmap"))
+BiocManager::install(c("clusterProfiler", "org.Hs.eg.db", "DESeq2"))
