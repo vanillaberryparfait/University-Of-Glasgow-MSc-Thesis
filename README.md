@@ -6,8 +6,8 @@ This repository contains the scripts and data used in my MSc thesis project. In 
 
 - [Data](#data)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Outputs](#outputs)
+- [Quick Start:](#quickstart)
+- [Results](#results)
 
 ## Data
 
@@ -47,7 +47,7 @@ BiocManager::install(c("clusterProfiler", "org.Hs.eg.db", "DESeq2"))
 
 ```
 
-## Usage
+## Quick Start:
 
 Loading Libraries :
 ```r
