@@ -11,7 +11,8 @@ This repository contains the scripts and data used in my MSc thesis project. In 
 
 ## Installation
 
-To run the scripts, you need to have R installed along with the following packages:
+The entire analysis was carried out on RStudio Version 2023.06.0+421 (2023.06.0+421).
+To run the scripts, the following packages were installed:
 
 ```r
 install.packages(c("ggplot2", "ggthemes", "ggrepel", "reshape2", "vctrs", "amap", "devtools", "Biobase", "sva", "pheatmap"))
