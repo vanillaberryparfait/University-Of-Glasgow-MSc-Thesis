@@ -29,12 +29,12 @@ combination of ofatumumab (OFA)-chlorambucil (CHL)(OFA-Chl) respectively.
 <img width="454" alt="image" src="https://github.com/vanillaberryparfait/University-Of-Glasgow-MSc-Thesis/assets/80147829/71390203-4ebf-4a93-a93c-6d158cf4399d">
 
 These above patients' samples were subjected to bulk RNA-seq analysis under five
-distinct growth conditions, which were as follows:
-Group 1 = NTL (non-proliferating)
-Group 2 = NTL-CD40L/IL4 (proliferating)
-Group 3 = NTL-CD40L/IL4 treated with AZD8055
-Group 4 = NTL-CD40L/IL4 treated with Ibrutinib
-Group 5 = NTL-CD40L/IL4 treated with combination (AZD8055 + IB).
+distinct growth conditions, which were as follows: <br/>
+Group 1 = NTL (non-proliferating) <br/>
+Group 2 = NTL-CD40L/IL4 (proliferating) <br/>
+Group 3 = NTL-CD40L/IL4 treated with AZD8055 <br/>
+Group 4 = NTL-CD40L/IL4 treated with Ibrutinib <br/>
+Group 5 = NTL-CD40L/IL4 treated with combination (AZD8055 + IB) <br/>
 
 ## Installation
 
