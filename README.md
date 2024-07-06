@@ -47,3 +47,26 @@ BiocManager::install(c("clusterProfiler", "org.Hs.eg.db", "DESeq2"))
 
 ```
 
+## Usage
+
+Loading Libraries :
+```r
+library(ggplot2)
+library(ggthemes)
+library(ggrepel)
+library(reshape2)
+library(clusterProfiler) 
+library(org.Hs.eg.db)
+library(vctrs)
+library(amap)
+library(DESeq2)
+library(devtools)
+library(Biobase)
+library(sva)
+library(pheatmap)
+```
+
+
+
+
+
