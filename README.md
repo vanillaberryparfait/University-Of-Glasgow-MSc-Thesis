@@ -7,7 +7,7 @@ This repository contains the scripts and data used in my MSc thesis project. In 
 - [Data](#data)
 - [Installation](#installation)
 - [Workflow](#workflow)
-- [Results](#results)
+- [Overview](#overview)
 
 ## Data
 
@@ -233,6 +233,12 @@ pathway_bar <- function(a, b) {
   return(barplot)
 }
 ```
+
+## Overview
+
+Further studies carried out in this study included a more detailed pathway analysis using Metaboanalyst and functional enrichment using DAVID, followed by network analysis with STRING to explore gene correlations and functional enrichments in drug synergy.
+
+Overall, this study investigated the combined effects of AZD8055 and ibrutinib in CLL, uncovering pathways such as AGE-RAGE and FoxO signaling. It revealed insights into cancer biology and potential links to neurodegenerative diseases.
 
 
 
