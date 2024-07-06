@@ -67,6 +67,19 @@ library(pheatmap)
 ```
 
 
-
+# Libraries Overview
+*ggplot2: A powerful plotting system in R, widely used for creating publication-quality graphics.
+*ggthemes: Provides additional themes and options for customizing plots created with ggplot2.
+*ggrepel: Ensures labels in ggplot2 plots do not overlap, improving readability.
+*reshape2: Useful for transforming and restructuring data frames, facilitating data manipulation.
+*clusterProfiler: Performs gene set enrichment analysis, identifying biological pathways enriched in a gene list.
+*org.Hs.eg.db: Offers annotation data specific to Homo sapiens, aiding in gene ID conversion and annotation.
+*vctrs: Defines type-safe operations and behaviors, ensuring consistent behavior across different data types.
+*amap: Implements clustering and spatial data analysis, useful for geographical and spatial data visualization.
+*DESeq2: Performs differential gene expression analysis, identifying genes that are significantly differentially expressed between conditions.
+*devtools: Provides tools for R package development, including functions for package installation, documentation, and testing.
+*Biobase: Offers fundamental tools and classes for bioinformatics data analysis and manipulation.
+*sva: Performs surrogate variable analysis to identify and adjust for hidden sources of variation in high-dimensional data.
+*pheatmap: Generates highly customizable heatmaps for visualizing large datasets and patterns within data.
 
 
